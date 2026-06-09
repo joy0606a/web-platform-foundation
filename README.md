@@ -1,159 +1,88 @@
-# Turborepo starter
+# web-platform-foundation
 
-This Turborepo starter is maintained by the Turborepo core team.
+A small, working reference for how I structure and unify web projects: a shared
+design system, consistent tooling, security and quality guardrails built into the
+shared config, and CI — so a team (including non-frontend contributors) can ship
+quickly without things drifting or breaking.
 
-## Using this example
+Built incrementally with AI coding agents (Claude Code), and documented as I went.
 
-Run the following command:
+> This is a **v1 reference**, scoped to be readable in a few minutes rather than a
+> full production platform. The goal is to show the _shape_ of the foundation and
+> the thinking behind it, not to be exhaustive.
 
-```sh
-npx create-turbo@latest
+## Why this exists
+
+Web codebases tend to grow organically: a few apps, shared bits copy-pasted between
+them, conventions that live in people's heads. That works until more people
+contribute and the surface area grows, at which point quality and safety start to
+depend on everyone remembering the rules. This repo is a small example of the
+foundation I'd put underneath that growth so those properties hold as a team scales.
+
+## What's here
+
+```
+apps/
+  web/                # sample Next.js app consuming the shared packages
+  docs/               # a second app — proves the shared layer works across surfaces
+packages/
+  ui/                 # design system: shared components + a place for tokens
+  eslint-config/      # shared lint config with security rules baked in (secure-by-default)
+  typescript-config/  # shared tsconfig used across the monorepo
 ```
 
-## What's inside?
+Tooling and guardrails:
 
-This Turborepo includes the following packages/apps:
+- **Turborepo** for the monorepo structure and task caching.
+- **Husky + lint-staged** — format staged files on every commit, so unformatted
+  code never lands.
+- **eslint-plugin-security in the shared config** — every app and package inherits
+  security rules automatically; contributors get them for free.
+- **GitHub Actions CI** — lint, type-check, and build on every push and PR.
+- **Prettier + shared ESLint / TS config** — one consistent style across all packages.
 
-### Apps and Packages
+## The idea: guardrails so more people can ship safely
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+The shared config is the point. Security rules, conventions, and types live in one
+place that every app and package inherits. A new contributor — even one who isn't a
+frontend specialist — gets the guardrails for free: the pre-commit hook catches
+formatting, CI catches lint/type/build, and security lint rules are on by default.
+The aim is for "shipping stays safe as more people contribute" to be a property of
+the setup, not something that depends on everyone remembering.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## What's a sample vs what I'd build next
 
-### Utilities
+Working here: the monorepo, shared design system, secure-by-default lint, pre-commit
+hooks, and CI. What I'd add next, in roughly this order:
 
-This Turborepo has some additional tools already setup for you:
+1. Component documentation and visual review (Storybook) + visual regression.
+2. E2E and integration test setup (Playwright / Vitest) wired into CI.
+3. Release/versioning automation and per-PR preview deployments.
+4. A "paved path" generator so non-frontend contributors can scaffold compliant code.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## How I'd approach unifying an existing setup
 
-### Build
+If I joined a codebase that had grown into separate stacks (say Astro, React, and
+Next side by side), I wouldn't consolidate blindly:
 
-To build all apps and packages, run the following command:
+1. **Understand why things grew the way they did first** — the split may exist for
+   good reasons.
+2. **Identify what genuinely benefits from a shared foundation** — design system,
+   config, tooling, CI — versus what's fine staying separate.
+3. **Build that shared layer first, then migrate one project at a time**, so the
+   team keeps shipping and nothing breaks all at once.
+4. **Put conventions, security rules, and CI guardrails in place from the start**,
+   so quality holds as the migration proceeds.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+The exact path always depends on the codebase. This repo is the shape of the
+foundation I'd start from.
 
-```sh
-cd my-turborepo
-turbo build
+## Running it
+
+```bash
+pnpm install
+pnpm dev          # run the apps
+pnpm lint         # lint all packages
+pnpm check-types  # type-check all packages
+pnpm build        # build all apps and packages
 ```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo build
-pnpm dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo build --filter=docs
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
