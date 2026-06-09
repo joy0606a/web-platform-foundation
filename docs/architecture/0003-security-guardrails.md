@@ -35,9 +35,11 @@ Security is enforced in four layers, ordered by how early they catch a problem:
    [`.claude/skills`](../../.claude/skills) gives the agent an OWASP Top 10 checklist to
    run, alongside human PR review.
 
-The split that makes this maintainable: \*\*deterministic + fast → git hook; deterministic
+The split that makes this maintainable:
 
-- slow → CI; needs judgement → agent/skill + human.\*\*
+- deterministic and fast → a git hook
+- deterministic and slow → CI
+- needs judgement → an agent/skill plus a human reviewer
 
 ## Consequences
 
