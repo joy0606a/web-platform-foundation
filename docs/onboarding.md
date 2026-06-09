@@ -5,7 +5,7 @@ specialist — the guardrails live in the setup, so most of the time you just fo
 
 ## One-time setup
 
-- Node 18+ and pnpm. Run `pnpm install` at the root.
+- Node 20+ and pnpm. Run `pnpm install` at the root.
 - Optional but recommended: install [gitleaks](https://github.com/gitleaks/gitleaks) so the
   pre-commit secret scan runs locally too (CI runs it regardless).
 
