@@ -13,6 +13,13 @@ decision is recorded as an ADR in [`docs/architecture/`](docs/architecture/).
 > This is a **v1 reference**, scoped to be readable in a few minutes rather than a
 > full production platform. The goal is to show the _shape_ of the foundation and
 > the thinking behind it, not to be exhaustive.
+>
+> **The running apps are intentionally minimal** — they exist to exercise the shared
+> layer, not to be a finished product. The substance is in the decisions
+> ([`docs/architecture/`](docs/architecture/)), the enforcement
+> ([`.claude/`](.claude/), CI, the git hooks), and the commit history — not in the
+> screens. (Theming, for instance, is wired through tokens and follows your OS
+> light/dark setting; there's deliberately no UI chrome built around it.)
 
 ## Why this exists
 
