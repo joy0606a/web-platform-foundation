@@ -2,7 +2,7 @@
 
 Short records of the decisions behind this foundation and _why_ they were made — so the
 reasoning survives the people who made it. Read these before changing the thing they cover
-(this is enforced as a rule in [`.claude/CLAUDE.md`](../../.claude/CLAUDE.md)).
+(this is enforced as a rule in [`CLAUDE.md`](../../CLAUDE.md)).
 
 | ADR                                  | Decision                                                 |
 | ------------------------------------ | -------------------------------------------------------- |

@@ -7,10 +7,10 @@ so the conventions are enforced by the setup, not by anyone remembering them.
 ## Before you change something
 
 - **Read the relevant ADR first.** Architecture decisions and their _why_ live in
-  [`docs/architecture/`](../docs/architecture/). Don't change the stack, the package
+  [`docs/architecture/`](docs/architecture/). Don't change the stack, the package
   manager, the security setup, or the commit/release flow without reading the ADR that
   covers it (and updating it if the decision changes).
-- New to the repo? Start with [`docs/onboarding.md`](../docs/onboarding.md).
+- New to the repo? Start with [`docs/onboarding.md`](docs/onboarding.md).
 
 ## Hard rules
 
@@ -21,16 +21,19 @@ so the conventions are enforced by the setup, not by anyone remembering them.
 - **Trunk-based:** branch `feature/*` off `main`, open a PR, **squash-merge** (one PR =
   one revertable commit). Never push to `main` directly; never force-push shared branches.
 - **Run the security review before opening a PR.** See skill `security-review`.
-- **Before marking work done, invoke the `reviewer` agent.** Human review still happens on
-  the PR — the agent is the first pass, not a replacement.
+- **Before marking work done, invoke the `reviewer` agent.** This is not optional: a `Stop`
+  hook blocks the turn from ending while there are uncommitted changes the reviewer hasn't
+  approved. Human review still happens on the PR — the agent is the first pass, not a replacement.
 
 ## How enforcement is layered
 
 - **Deterministic + fast → git hook** (pre-commit: format, secret scan).
-- **Deterministic + slow → CI** (lint, type-check, build, audit, gitleaks).
-- **Needs judgement → an agent/skill + a human** (the `reviewer` agent; PR review).
+- **Deterministic + slow → CI** (lint, type-check, build, test, audit, gitleaks).
+- **Needs judgement → an agent/skill + a human** (the `reviewer` agent; PR review), made
+  non-skippable by a `Stop` hook ([`.claude/hooks/require-review.sh`](.claude/hooks/require-review.sh))
+  that refuses to finish a turn with unreviewed uncommitted changes.
 
-Permissions in [`settings.json`](settings.json) cap the blast radius (safe dev commands
+Permissions in [`.claude/settings.json`](.claude/settings.json) cap the blast radius (safe dev commands
 are pre-approved; destructive ones are denied) so contributors — including non-frontend
 ones — can work without either constant prompts or sharp edges.
 

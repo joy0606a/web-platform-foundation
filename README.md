@@ -42,7 +42,8 @@ packages/
 docs/
   architecture/       # ADRs — the decisions and their why
   onboarding.md       # how to contribute (including non-frontend contributors)
-.claude/              # vanilla agentic setup: rules, skills, reviewer agent, /new-feature, permissions
+CLAUDE.md             # always-loaded project rules (docs-first, commit + token rules)
+.claude/              # agentic setup: skills, reviewer agent (+ Stop hook), /new-feature, permissions
 ```
 
 Tooling and guardrails:
@@ -54,10 +55,13 @@ Tooling and guardrails:
   per PR (see [ADR 0004](docs/architecture/0004-commit-and-rollback.md)).
 - **eslint-plugin-security in the shared config** — every app and package inherits security
   rules automatically; contributors get them for free.
-- **GitHub Actions** — CI (lint, type-check, build) and a Security workflow (gitleaks +
+- **GitHub Actions** — CI (lint, type-check, build, test) and a Security workflow (gitleaks +
   `pnpm audit`) on every push and PR.
-- **`.claude/`** — conventions injected automatically, a reviewer agent for the first review
-  pass, and a guarded `/new-feature` path so contributors follow the rails by default.
+- **Vitest + Playwright** — unit tests on business logic and an e2e smoke, both run in CI
+  (see [ADR 0005](docs/architecture/0005-testing-strategy.md)).
+- **`.claude/`** — conventions injected automatically (root `CLAUDE.md`), a reviewer agent
+  whose pass is **enforced by a Stop hook** (you can't finish with unreviewed changes), and a
+  guarded `/new-feature` path so contributors follow the rails by default.
 
 ## The idea: guardrails so more people can ship safely
 
@@ -74,11 +78,12 @@ something that depends on everyone remembering.
 
 Working here: the monorepo, a React Router + Vite app and a Vite SPA, a shared
 token-driven design system, secure-by-default lint, secret scanning, dependency audit,
-pre-commit + commit-msg hooks, CI, and a vanilla agentic convention/reviewer setup.
+pre-commit + commit-msg hooks, unit tests (Vitest) and an e2e smoke (Playwright) in CI, and
+a vanilla agentic setup whose reviewer pass is enforced by a Stop hook.
 What I'd add next, in roughly this order:
 
 1. Component documentation and visual review (Storybook) + visual regression.
-2. E2E and integration test setup (Playwright / Vitest) wired into CI.
+2. Broader test coverage — integration tests and more e2e along the critical paths.
 3. Release automation (Changesets) and per-PR preview deployments (Cloudflare / Railway).
 
 ## How I'd approach unifying an existing setup
