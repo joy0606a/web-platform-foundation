@@ -32,10 +32,10 @@ Security is enforced in four layers, ordered by how early they catch a problem:
 4. **Judgement (review time).** Some risks aren't mechanical — broken access control,
    missing input validation, logic-level authz. The _judgement_ itself can't be a shell
    hook, so it lives in a **reviewer pass**: the `security-review` skill in
-   [`.claude/skills`](../../.claude/skills) gives the agent an OWASP Top 10 checklist to run,
-   alongside human PR review. What _is_ enforced mechanically is that the review **happens** —
-   a `Stop` hook ([`.claude/hooks/require-review.sh`](../../.claude/hooks/require-review.sh))
-   refuses to end a turn while there are uncommitted changes the reviewer hasn't approved.
+   [`plugins/foundation/skills`](../../plugins/foundation/skills) gives the agent an OWASP Top
+   10 checklist to run, alongside human PR review. What _is_ enforced mechanically is that the
+   review **happens** — a `Stop` hook (`plugins/foundation/hooks/require-verify.sh`) refuses to
+   end a turn while there are uncommitted changes the code-reviewer hasn't approved.
 
 The split that makes this maintainable:
 

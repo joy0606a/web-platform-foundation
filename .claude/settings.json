@@ -32,18 +32,13 @@
       "Bash(npm publish:*)"
     ]
   },
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/require-review.sh",
-            "statusMessage": "Checking the change was reviewed..."
-          }
-        ]
+  "extraKnownMarketplaces": {
+    "web-platform-foundation": {
+      "source": {
+        "source": "github",
+        "repo": "joy0606a/web-platform-foundation"
       }
-    ]
-  }
+    }
+  },
+  "enabledPlugins": ["foundation@web-platform-foundation"]
 }

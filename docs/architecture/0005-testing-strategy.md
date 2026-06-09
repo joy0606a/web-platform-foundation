@@ -39,7 +39,7 @@ Where each kind of test earns its keep:
   not behaviour. Their correctness belongs in Storybook + visual regression (a next step).
 
 This pairs with the convention "no business logic in components" (see
-[`.claude/skills/code-convention.md`](../../.claude/skills/code-convention.md)): logic lives
+[`plugins/foundation/skills/code-convention`](../../plugins/foundation/skills/code-convention)): logic lives
 in testable units, so the high-value tests are easy to write.
 
 ## Consequences

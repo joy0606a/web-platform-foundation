@@ -67,7 +67,7 @@ from real incidents_, not by being invented up front. The process:
 1. A pattern of feedback recurs in PR review (or a bug class repeats).
 2. It gets written down here as a rule.
 3. Where possible it's made mechanical — a lint rule, a commitlint rule, or a check in the
-   `reviewer` agent — so it stops depending on memory.
+   `code-reviewer` agent — so it stops depending on memory.
 
 The value of this repo isn't the length of this list; it's that the list is enforced and
 that there's a defined path for it to grow.

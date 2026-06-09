@@ -43,7 +43,11 @@ docs/
   architecture/       # ADRs — the decisions and their why
   onboarding.md       # how to contribute (including non-frontend contributors)
 CLAUDE.md             # always-loaded project rules (docs-first, commit + token rules)
-.claude/              # agentic setup: skills, reviewer agent (+ Stop hook), /new-feature, permissions
+.claude/              # settings: permissions + enables the foundation plugin for this repo
+.claude-plugin/       # marketplace.json — makes this repo installable as a plugin source
+plugins/
+  foundation/         # the agentic harness, packaged as a Claude Code plugin
+                      #   /goal pipeline, model/effort-tuned agents, skills, review/verify hooks
 ```
 
 Tooling and guardrails:
@@ -59,9 +63,13 @@ Tooling and guardrails:
   `pnpm audit`) on every push and PR.
 - **Vitest + Playwright** — unit tests on business logic and an e2e smoke, both run in CI
   (see [ADR 0005](docs/architecture/0005-testing-strategy.md)).
-- **`.claude/`** — conventions injected automatically (root `CLAUDE.md`), a reviewer agent
-  whose pass is **enforced by a Stop hook** (you can't finish with unreviewed changes), and a
-  guarded `/new-feature` path so contributors follow the rails by default.
+- **The `foundation` plugin** ([`plugins/foundation/`](plugins/foundation/)) — the agentic
+  harness packaged as a Claude Code plugin: a `/goal` orchestrator (explore → plan → critic →
+  executor → code-review → security → visual-verify), agents tuned per stage with their own
+  model + effort, design-system/security/docs skills, and a Stop hook that won't let a turn
+  finish with unreviewed changes. Enabled for the repo via `.claude/settings.json` and
+  installable elsewhere via the repo's `marketplace.json`. See
+  [ADR 0006](docs/architecture/0006-agentic-harness.md).
 
 ## The idea: guardrails so more people can ship safely
 

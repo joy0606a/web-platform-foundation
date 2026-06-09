@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "foundation",
+  "description": "Agentic frontend harness: /goal pipeline (explore -> plan -> critic -> executor -> code-review -> security -> visual-verify), model/effort-tuned agents, design-system + security skills, and review/verify hooks for this monorepo.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Saebom An"
+  }
+}

@@ -26,24 +26,34 @@ so the conventions are enforced by the setup, not by anyone remembering them.
 - **Trunk-based:** branch `feature/*` off `main`, open a PR, **squash-merge** (one PR =
   one revertable commit). Never push to `main` directly; never force-push shared branches.
 - **Run the security review before opening a PR.** See skill `security-review`.
-- **Before marking work done, invoke the `reviewer` agent.** This is not optional: a `Stop`
-  hook blocks the turn from ending while there are uncommitted changes the reviewer hasn't
-  approved. Human review still happens on the PR — the agent is the first pass, not a replacement.
+- **Before marking work done, invoke the `code-reviewer` agent** (or run the full pipeline
+  with `/foundation:goal`). This is not optional: a `Stop` hook blocks the turn from ending
+  while there are uncommitted changes the code-reviewer hasn't approved. Human review still
+  happens on the PR — the agent is the first pass, not a replacement.
 
 ## How enforcement is layered
 
 - **Deterministic + fast → git hook** (pre-commit: format, secret scan).
 - **Deterministic + slow → CI** (lint, type-check, build, test, audit, gitleaks).
-- **Needs judgement → an agent/skill + a human** (the `reviewer` agent; PR review), made
-  non-skippable by a `Stop` hook ([`.claude/hooks/require-review.sh`](.claude/hooks/require-review.sh))
-  that refuses to finish a turn with unreviewed uncommitted changes.
+- **Needs judgement → an agent/skill + a human** (the `code-reviewer` agent; PR review), made
+  non-skippable by a `Stop` hook (`plugins/foundation/hooks/require-verify.sh`) that refuses to
+  finish a turn with unreviewed uncommitted changes.
 
 Permissions in [`.claude/settings.json`](.claude/settings.json) cap the blast radius (safe dev commands
 are pre-approved; destructive ones are denied) so contributors — including non-frontend
 ones — can work without either constant prompts or sharp edges.
 
-## Skills available
+## The agentic harness (the `foundation` plugin)
 
-- `code-convention` — file structure, naming, component/hook patterns, where tests go.
-- `security-review` — OWASP Top 10 checklist for this codebase.
-- `design-tokens` — how to use and extend the token system.
+The agents, skills, and hooks live in a Claude Code plugin at
+[`plugins/foundation/`](plugins/foundation/), enabled for this repo via `.claude/settings.json`.
+Start any non-trivial work with the orchestrator:
+
+- **`/foundation:goal <goal>`** — runs explore → plan → critic → executor → code-review →
+  (security) → visual-verify, and judges done against the goal.
+
+Skills it provides: `use-design-system`, `code-convention`, `security-review`, `design-tokens`,
+`claude-docs` (always answer config questions from the latest official docs), `onboard`,
+`new-feature`. Agents (each tuned with its own model + effort): `planner`, `critic`,
+`executor`, `code-reviewer`, `security-reviewer`, `visual-verifier`, `onboarding-guide`. See
+[ADR 0006](docs/architecture/0006-agentic-harness.md).

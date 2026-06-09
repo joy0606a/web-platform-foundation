@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Stop hook — refuse to finish a turn while there are uncommitted changes that the
-# `reviewer` agent hasn't approved.
+# `code-reviewer` agent hasn't approved.
 #
-# The reviewer records the reviewed working state in .claude/state/last-review on an
-# APPROVE verdict (same fingerprint formula as below). This hook blocks the stop until
-# that marker matches the current uncommitted changes. Committing clears the tree, which
-# also lets the turn finish (commits are already gated by the git hooks + CI).
+# The code-reviewer records the reviewed working state in .claude/state/last-review on an
+# APPROVE verdict (same fingerprint formula as below). This hook blocks the stop until that
+# marker matches the current uncommitted changes. Committing clears the tree, which also lets
+# the turn finish (commits are already gated by the git hooks + CI).
 #
-# Honors stop_hook_active to avoid infinite loops, and fails OPEN (never locks you out)
-# if anything unexpected happens.
+# Honors stop_hook_active to avoid infinite loops, and fails OPEN (never locks you out) if
+# anything unexpected happens.
 
 input="$(cat)"
 
@@ -39,5 +39,5 @@ if [ -f "$marker" ] && [ "$(cat "$marker" 2>/dev/null)" = "$fp" ]; then
   exit 0
 fi
 
-echo "Uncommitted changes have not been approved by the 'reviewer' agent. Invoke the reviewer agent; on APPROVE it records the review, then you can finish (or commit, which clears the tree)." >&2
+echo "Uncommitted changes have not been approved by the 'code-reviewer' agent. Invoke the code-reviewer agent (or run the full pipeline with /foundation:goal); on APPROVE it records the review, then you can finish (or commit, which clears the tree)." >&2
 exit 2

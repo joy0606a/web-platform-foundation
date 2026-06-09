@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "web-platform-foundation",
+  "owner": {
+    "name": "Saebom An"
+  },
+  "plugins": [
+    {
+      "name": "foundation",
+      "source": "./plugins/foundation",
+      "description": "Agentic frontend harness: /goal pipeline, model/effort-tuned agents, design-system + security skills, review/verify hooks."
+    }
+  ]
+}
