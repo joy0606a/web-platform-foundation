@@ -22,10 +22,11 @@ Size the work first, then run only the stages that path calls for:
 - **trivial** (a typo, one prop, a copy or spacing change, a tiny style tweak): the main
   session edits it directly, does a quick self-check, and is done. **No agents, no pipeline.**
 - **standard** (one small component or a small feature that does **not** touch a risk
-  surface): **explore (light) → executor → code-reviewer.** **Skip critic, security-reviewer,
-  and visual-verifier** unless a conditional trigger below fires.
-- **large / risky** (a multi-file change, a new package or module boundary, or anything that
-  touches a risk surface): run the **full pipeline** below.
+  surface — e.g. adding a component to the existing `@repo/ui` design system): **explore
+  (light) → executor → code-reviewer.** **Skip critic, security-reviewer, and
+  visual-verifier** unless a conditional trigger below fires.
+- **large / risky** (a broad multi-file change, a **new** package or public module/API
+  boundary, or anything that touches a risk surface): run the **full pipeline** below.
 
 **Conditional triggers — add a stage only when its trigger is met:**
 
@@ -38,7 +39,9 @@ Size the work first, then run only the stages that path calls for:
 
 A **risk surface** is any of: auth/authorization, user input handling, secrets, a new
 endpoint/route/action, an external or server-side fetch, `dangerouslySetInnerHTML`, a new
-dependency, or a new package/module boundary.
+dependency, or **creating a new package or public module/API boundary**. Editing or adding
+within an existing shared package (e.g. a new component in `@repo/ui`) is **not** a risk
+surface on its own.
 
 ## Pipeline (stages, in order — select per triage above)
 
