@@ -42,3 +42,6 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# Local review state (written by the reviewer agent, read by the Stop hook)
+.claude/state/

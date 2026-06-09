@@ -34,3 +34,19 @@ findings (Conventions / Tokens / Security / Commits / Gates), each with `file:li
 concrete fix, then the result of the three gates. Be specific and terse. If something is
 clean, say so briefly. You are the first pass, not the last word — a human reviewer still
 signs off on the PR.
+
+## Recording an APPROVE (required)
+
+**If — and only if — your verdict is APPROVE**, record that this exact working state was
+reviewed, so the `Stop` hook (`.claude/hooks/require-review.sh`) lets the turn finish. Run:
+
+```bash
+mkdir -p .claude/state && {
+  git diff
+  git diff --cached
+  git ls-files --others --exclude-standard -z | xargs -0 cat 2>/dev/null
+} 2>/dev/null | git hash-object --stdin > .claude/state/last-review
+```
+
+This is the same fingerprint the hook computes. Do **not** write the marker if you requested
+changes — unreviewed work must stay blocked.
