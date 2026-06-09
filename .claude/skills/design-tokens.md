@@ -31,3 +31,32 @@ each contributor remembering the right value.
 Build components from tokens + layout; combine existing `@repo/ui` components rather than
 re-styling from scratch. A new visual pattern that recurs becomes a shared component in
 `packages/ui`, not a one-off in an app.
+
+## Example
+
+```css
+/* ❌ Don't — hardcoded values and a primitive token in a component */
+.alert {
+  color: #b91c1c;
+  padding: 12px;
+  background: var(--red-100);
+}
+
+/* ✅ Do — semantic tokens that theme automatically */
+.alert {
+  color: var(--color-danger-fg);
+  padding: var(--space-3);
+  background: var(--color-danger-bg);
+}
+```
+
+If a semantic token you need doesn't exist yet (`--color-danger-*` above), that's the signal
+to add one to `tokens.css` for both themes — not to reach for a primitive or a literal.
+
+## The theming contract
+
+A component is correctly built if it themes with **zero changes**: because it reads only
+semantic tokens, switching `[data-theme="dark"]` (or the system preference) reskins it for
+free. The contract is therefore simple — **consume semantic tokens only, and your component
+upholds light/dark automatically.** Verify every component in both themes before calling it
+done; a component that needs per-theme overrides is leaking a hardcoded value somewhere.
