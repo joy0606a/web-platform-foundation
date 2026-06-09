@@ -7,12 +7,40 @@ disable-model-invocation: true
 
 # /goal — the agentic pipeline
 
-Drive the goal **"$ARGUMENTS"** through the full pipeline below. You are the orchestrator:
+Drive the goal **"$ARGUMENTS"** through the pipeline below. You are the orchestrator:
 you dispatch each stage to its agent, pass the previous stage's output forward, and stop early
 only when a gate fails or a stage tells you to revise. Keep the change as small as the goal
 allows.
 
-## Pipeline
+**Default to the lightest path that fits the task; add a stage only when its risk trigger is
+met. Do not run the full pipeline "to be safe" on small work.**
+
+## Triage — pick the path before you start
+
+Size the work first, then run only the stages that path calls for:
+
+- **trivial** (a typo, one prop, a copy or spacing change, a tiny style tweak): the main
+  session edits it directly, does a quick self-check, and is done. **No agents, no pipeline.**
+- **standard** (one small component or a small feature that does **not** touch a risk
+  surface): **explore (light) → executor → code-reviewer.** **Skip critic, security-reviewer,
+  and visual-verifier** unless a conditional trigger below fires.
+- **large / risky** (a multi-file change, a new package or module boundary, or anything that
+  touches a risk surface): run the **full pipeline** below.
+
+**Conditional triggers — add a stage only when its trigger is met:**
+
+- add **critic** (after planner) only when the plan involves a real architectural choice or a
+  new shared abstraction;
+- add **security-reviewer** only when the change touches auth, user input, secrets, network
+  calls, `dangerouslySetInnerHTML`, or new dependencies;
+- add **visual-verifier** only when the change alters rendered UI you actually need to confirm
+  in the running app.
+
+A **risk surface** is any of: auth/authorization, user input handling, secrets, a new
+endpoint/route/action, an external or server-side fetch, `dangerouslySetInnerHTML`, a new
+dependency, or a new package/module boundary.
+
+## Pipeline (stages, in order — select per triage above)
 
 1. **Explore** — Understand the request and the relevant code. Map the affected
    `apps/<name>/` and `packages/<name>/`, existing `@repo/ui` components and design tokens
