@@ -12,36 +12,32 @@ you dispatch each stage to its agent, pass the previous stage's output forward, 
 only when a gate fails or a stage tells you to revise. Keep the change as small as the goal
 allows.
 
-**Default to the lightest path that fits the task; add a stage only when its risk trigger is
-met. Do not run the full pipeline "to be safe" on small work.**
+**Default to the lightest path that fits the task; add the heavy stages only when their
+trigger fires. Do not run the full pipeline "to be safe" on small work.**
 
 ## Triage — pick the path before you start
 
-Size the work first, then run only the stages that path calls for:
+Only two questions: is it trivial, and which heavy stages does it trigger?
 
 - **trivial** (a typo, one prop, a copy or spacing change, a tiny style tweak): the main
   session edits it directly, does a quick self-check, and is done. **No agents, no pipeline.**
-- **standard** (one small component or a small feature that does **not** touch a risk
-  surface — e.g. adding a component to the existing `@repo/ui` design system): **explore
-  (light) → executor → code-reviewer.** **Skip critic, security-reviewer, and
-  visual-verifier** unless a conditional trigger below fires.
-- **large / risky** (a broad multi-file change, a **new** package or public module/API
-  boundary, or anything that touches a risk surface): run the **full pipeline** below.
+- **everything else** runs the **core pipeline: explore → planner → executor → code-reviewer.**
+  Plan, build, review — every non-trivial change earns that, no matter its size. (Don't classify
+  "standard vs large"; size doesn't decide the path, the triggers below do.)
 
-**Conditional triggers — add a stage only when its trigger is met:**
+**Then add a heavy stage only when its trigger fires** (otherwise skip it):
 
-- add **critic** (after planner) only when the plan involves a real architectural choice or a
-  new shared abstraction;
-- add **security-reviewer** only when the change touches auth, user input, secrets, network
-  calls, `dangerouslySetInnerHTML`, or new dependencies;
-- add **visual-verifier** only when the change alters rendered UI you actually need to confirm
-  in the running app.
+- add **critic** (after the planner) when the plan involves a real architectural choice, a new
+  shared abstraction, or **creating** a new package / public module-API boundary;
+- add **security-reviewer** when the change touches auth, user input, secrets, network calls,
+  `dangerouslySetInnerHTML`, or a new dependency;
+- add **visual-verifier** when the change alters rendered UI you need to confirm in the running app.
 
-A **risk surface** is any of: auth/authorization, user input handling, secrets, a new
-endpoint/route/action, an external or server-side fetch, `dangerouslySetInnerHTML`, a new
-dependency, or **creating a new package or public module/API boundary**. Editing or adding
-within an existing shared package (e.g. a new component in `@repo/ui`) is **not** a risk
-surface on its own.
+Worked examples: a new `@repo/ui` component →
+`explore → planner → executor → code-reviewer` (no heavy trigger fires — adding to an existing
+shared package is not, by itself, an architectural choice or a risk). A new route with a form
+that validates user input → the core pipeline **plus** critic, security-reviewer, and
+visual-verifier (all three triggers fire).
 
 ## Pipeline (stages, in order — select per triage above)
 
@@ -53,9 +49,10 @@ surface on its own.
 2. **Plan** — Dispatch the **planner** agent with the goal and what exploration found. It
    returns a file-level plan (affected files, approach, tests, risks).
 
-3. **Critic** — Dispatch the **critic** agent with the plan and the goal. If it returns
-   **REVISE**, send its findings back to the planner and re-run the critic. Proceed only on
-   **PROCEED**.
+3. **Critic (conditional)** — When its trigger fires (a real architectural choice, a new shared
+   abstraction, or creating a new package / module boundary), dispatch the **critic** agent with
+   the plan and the goal. If it returns **REVISE**, send its findings back to the planner and
+   re-run the critic. Proceed only on **PROCEED**.
 
 4. **Executor** — Dispatch the **executor** agent with the approved plan. It implements the
    smallest viable diff using `@repo/ui` and semantic tokens, adds/updates tests, and runs
