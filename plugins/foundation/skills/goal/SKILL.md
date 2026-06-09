@@ -31,7 +31,9 @@ Only two questions: is it trivial, and which heavy stages does it trigger?
   shared abstraction, or **creating** a new package / public module-API boundary;
 - add **security-reviewer** when the change touches auth, user input, secrets, network calls,
   `dangerouslySetInnerHTML`, or a new dependency;
-- add **visual-verifier** when the change alters rendered UI you need to confirm in the running app.
+- add **visual-verifier** when the change adds or changes rendered UI in `apps/web` or
+  `apps/docs` — a page, a route, or a component shown in an app. (Skip it for pure logic,
+  config, or package-internal changes not yet rendered in an app.)
 
 Worked examples: a new `@repo/ui` component →
 `explore → planner → executor → code-reviewer` (no heavy trigger fires — adding to an existing
