@@ -87,7 +87,8 @@ something that depends on everyone remembering.
 Working here: the monorepo, a React Router + Vite app and a Vite SPA, a shared
 token-driven design system, secure-by-default lint, secret scanning, dependency audit,
 pre-commit + commit-msg hooks, unit tests (Vitest) and an e2e smoke (Playwright) in CI, and
-a vanilla agentic setup whose reviewer pass is enforced by a Stop hook.
+the `foundation` agentic plugin (a `/goal` pipeline + agents/skills/hooks) whose code-reviewer
+pass is enforced by a Stop hook.
 What I'd add next, in roughly this order:
 
 1. Component documentation and visual review (Storybook) + visual regression.
