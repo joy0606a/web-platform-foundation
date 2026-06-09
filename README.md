@@ -112,12 +112,42 @@ Next side by side), I wouldn't consolidate blindly:
 The exact path always depends on the codebase. This repo is the shape of the
 foundation I'd start from.
 
-## Running it
+## Try it
 
 ```bash
 pnpm install
-pnpm dev          # run the apps
-pnpm lint         # lint all packages
-pnpm check-types  # type-check all packages
-pnpm build        # build all apps and packages
+pnpm dev            # web → localhost:3000, docs → localhost:3001
 ```
+
+**See the guardrails work — no API key needed** (each runs in seconds):
+
+```bash
+pnpm lint           # shared lint, security rules included
+pnpm check-types    # type-check every package
+pnpm build          # build all apps and packages
+pnpm test           # Vitest unit tests
+pnpm test:e2e       # Playwright e2e smoke (starts the web app)
+pnpm test:harness   # the foundation plugin's own contract tests
+```
+
+**Try the agentic harness** (needs [Claude Code](https://claude.com/claude-code)):
+
+```bash
+claude --plugin-dir ./plugins/foundation   # or trust the repo; .claude/settings.json enables it
+```
+
+Start small — `/goal` triages by risk, so a light change stays light:
+
+```
+/foundation:goal "Add an aria-label prop to the Card component (AC: optional prop, applied to the root element, no visual change)"
+```
+
+It scales up on its own: a multi-file or risk-touching task pulls in the critic, security, and
+visual-verify stages, and the Stop hook won't let the turn finish until the `code-reviewer` has
+approved. To point it at a real design spec, fetch one locally (it stays gitignored):
+
+```bash
+npx getdesign@latest add airbnb --out ./.scratch/DESIGN.md   # any brand; via getdesign.md
+```
+
+Other entry points: `/foundation:onboard`, `/foundation:new-feature`, `/foundation:claude-docs`.

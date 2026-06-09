@@ -45,3 +45,6 @@ yarn-error.log*
 
 # Local review state (written by the reviewer agent, read by the Stop hook)
 .claude/state/
+
+# Local scratch — e.g. design specs fetched via getdesign.md for trying the harness
+.scratch/
