@@ -27,6 +27,12 @@ jobs:
       - run: pnpm run build
       - run: pnpm test
 
+      # Deterministic harness contract tests: prove the Claude Code plugin
+      # (agents/skills frontmatter + hook behavior) is structurally valid and
+      # behaves as specified. Hermetic, no LLM calls. The probabilistic LLM
+      # evals (evals/) are intentionally NOT run here — see evals/README.md.
+      - run: pnpm test:harness
+
   e2e:
     runs-on: ubuntu-latest
     steps:

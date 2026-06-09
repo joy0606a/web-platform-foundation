@@ -12,6 +12,7 @@ reasoning survives the people who made it. Read these before changing the thing 
 | [0004](0004-commit-and-rollback.md)  | Commit convention & rollback strategy                       |
 | [0005](0005-testing-strategy.md)     | Testing strategy (risk-based)                               |
 | [0006](0006-agentic-harness.md)      | Agentic harness: the `/goal` pipeline, packaged as a plugin |
+| [0007](0007-harness-evals.md)        | Evaluating the agentic harness (contract tests + LLM evals) |
 
 Format: lightweight [MADR](https://adr.github.io/madr/) — Context, Decision, Consequences,
 Alternatives.

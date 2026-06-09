@@ -1,0 +1,12 @@
+# gitleaks configuration. Extends the default rule set and allowlists the harness
+# eval fixtures, which deliberately contain fake "secrets" so the review agents have
+# something to catch (see evals/ and docs/architecture/0007-harness-evals.md). These
+# are not real credentials; everything outside evals/fixtures/ is still scanned.
+title = "web-platform-foundation"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Intentional fake secrets in harness eval fixtures are not real credentials."
+paths = ['''evals/fixtures/.*''']

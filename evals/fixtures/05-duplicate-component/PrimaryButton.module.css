@@ -1,0 +1,13 @@
+/* Re-implements the primary button styling that @repo/ui's Button already
+   ships. This whole file should not exist — reuse <Button variant="primary" />. */
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  border: 1px solid var(--color-primary);
+  cursor: pointer;
+}
