@@ -1,1 +1,8 @@
+# Secret scan on staged changes. Skips gracefully if gitleaks isn't installed
+# locally (CI runs gitleaks unconditionally as the hard gate); when it is present,
+# a detected secret aborts the commit before it can ever enter history.
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --redact --no-banner
+fi
+
 pnpm exec lint-staged
