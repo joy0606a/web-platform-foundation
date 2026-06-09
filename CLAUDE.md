@@ -14,6 +14,11 @@ so the conventions are enforced by the setup, not by anyone remembering them.
 
 ## Hard rules
 
+- **Write everything in English.** All code, comments, docs, ADRs, commit messages, and
+  `.claude/` content are in English, regardless of the language of the conversation.
+- **Don't trust stale assumptions about tooling.** Before configuring Claude Code, an SDK, or
+  a framework, check the latest official docs rather than relying on memory. Use the
+  `claude-docs` skill (it reads the live docs index and the relevant page).
 - **Design tokens, never hardcoded values.** All color/spacing/radius/type comes from
   `var(--token)` (defined in `packages/ui/src/tokens.css`). See skill `design-tokens`.
 - **Conventional Commits, scope = the package/app touched** (`web`, `docs`, `ui`,
