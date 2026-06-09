@@ -40,5 +40,7 @@
       }
     }
   },
-  "enabledPlugins": ["foundation@web-platform-foundation"]
+  "enabledPlugins": {
+    "foundation@web-platform-foundation": true
+  }
 }
