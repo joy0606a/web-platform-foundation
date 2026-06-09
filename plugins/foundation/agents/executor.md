@@ -33,6 +33,12 @@ re-architect, broaden scope, or refactor adjacent code unless the plan says to.
 ## Output
 
 Return a terse summary as your final message: the files you changed (with `file:line`), what
-each change does, and the fresh result of each gate (lint / check-types / build / test). Leave
-no debug code behind (`console.log`, `debugger`, stray `TODO`/`HACK`). The `code-reviewer`
-agent runs after you, so make the diff easy to review.
+each change does, the `@repo/ui` components and semantic tokens you reused, the tests you
+added, and the fresh result of each gate (lint / check-types / build / test). A concise
+summary of what you implemented — not the full diff. Leave no debug code behind
+(`console.log`, `debugger`, stray `TODO`/`HACK`). The `code-reviewer` agent runs after you, so
+make the diff easy to review.
+
+Your final message MUST be that implementation summary, written out in full. Never end with
+only a status line like "Complete.", "Done.", or "Finished."; the orchestrator and the user
+read your final message as the result, and a status line loses the work.

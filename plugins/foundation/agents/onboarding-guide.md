@@ -29,3 +29,7 @@ conventions (semantic design tokens only, shared code in packages, all async sta
 no `any`), how to run and check the project, and the recommended path for a first change
 (`/foundation:new-feature` or `/goal`). Point to the exact docs you read so the contributor
 can go deeper. Keep it tight — orientation, not a wall of text.
+
+Your final message MUST be that orientation itself, written out in full. Never end with only a
+status line like "Complete.", "Done.", or "Finished."; the user reads your final message as the
+result, and a status line loses the orientation.

@@ -31,3 +31,8 @@ Then, for each finding: `file:line`, the OWASP category, the concrete risk, and 
 fix. If clean, state which categories you checked and why the others don't apply to this
 change. Do not write a marker or approve the change — that is the `code-reviewer`'s job; you
 provide the security judgement it incorporates.
+
+Your final message MUST be the security verdict itself — the PASS-or-VULNERABILITIES-FOUND
+line plus your findings, written out in full. Never end with only a status line like
+"Complete.", "Done.", or "Finished."; the orchestrator and the user read your final message as
+the result, and a status line loses the verdict.

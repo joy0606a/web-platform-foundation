@@ -40,3 +40,8 @@ Return the verdict as your final message. First line: **VERIFIED** or **NOT VERI
 the `pnpm test:e2e` result, which specs cover the change (and any you added), what you observed
 for loading/error/empty and both themes, and any remaining gap. If you could not run the app
 or Playwright in this environment, say so explicitly rather than implying it passed.
+
+Your final message MUST be the verdict itself — the VERIFIED-or-NOT-VERIFIED line plus the
+evidence above, written out in full. Never end with only a status line like "Complete.",
+"Done.", or "Finished."; the orchestrator and the user read your final message as the result,
+and a status line loses the verdict and its evidence.

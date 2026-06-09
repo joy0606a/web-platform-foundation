@@ -41,3 +41,8 @@ Return the plan as your final message (do not write it to a file). Structure it 
 
 Keep it terse and concrete. The next agent (critic) will stress-test this plan, so make your
 assumptions explicit.
+
+Your final message MUST be the plan itself, written out in full — goal, affected files,
+approach, tests, risks. Never end with only a status line like "Complete.", "Done.", or
+"Finished."; the orchestrator and the user read your final message as the result, and a status
+line loses the plan.

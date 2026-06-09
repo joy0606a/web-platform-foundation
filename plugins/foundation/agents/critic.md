@@ -38,3 +38,8 @@ grouped list of findings, each citing the part of the plan (and `file:line` wher
 the code) and giving a concrete correction. If you say PROCEED, briefly note the few things
 the executor must be careful about. Be specific and terse — you are the last gate before code
 gets written, so a missed flaw here costs real implementation time.
+
+Your final message MUST be the verdict itself — the PROCEED-or-REVISE line plus your findings,
+written out in full. Never end with only a status line like "Complete.", "Done.", or
+"Finished."; the orchestrator and the user read your final message as the result, and a status
+line loses the verdict.
