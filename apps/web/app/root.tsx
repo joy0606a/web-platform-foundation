@@ -1,5 +1,6 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
+import "@repo/ui/tokens.css";
 import "./globals.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {

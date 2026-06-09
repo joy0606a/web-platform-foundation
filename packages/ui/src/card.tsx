@@ -1,27 +1,20 @@
-import { type JSX } from "react";
+import { type JSX, type ReactNode } from "react";
 
-export function Card({
-  className,
-  title,
-  children,
-  href,
-}: {
+import styles from "./card.module.css";
+
+export interface CardProps {
+  children: ReactNode;
   className?: string;
-  title: string;
-  children: React.ReactNode;
-  href: string;
-}): JSX.Element {
+  title?: string;
+}
+
+export function Card({ children, className, title }: CardProps): JSX.Element {
+  const classes = [styles.card, className].filter(Boolean).join(" ");
+
   return (
-    <a
-      className={className}
-      href={`${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"`}
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <h2>
-        {title} <span>-&gt;</span>
-      </h2>
-      <p>{children}</p>
-    </a>
+    <div className={classes}>
+      {title ? <h2 className={styles.title}>{title}</h2> : null}
+      {children}
+    </div>
   );
 }
