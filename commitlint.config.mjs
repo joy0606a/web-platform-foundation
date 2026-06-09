@@ -13,6 +13,7 @@ export default {
         "web",
         "docs",
         "ui",
+        "utils",
         "eslint-config",
         "tsconfig",
         "claude",
