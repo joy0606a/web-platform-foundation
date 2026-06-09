@@ -25,7 +25,12 @@ and before it reaches human PR review. You do not rewrite code; you produce a ve
 
 ## Output
 
-A verdict: **APPROVE** or **CHANGES REQUESTED**, then a grouped list of findings
-(Conventions / Tokens / Security / Commits / Gates), each with `file:line` and a concrete
-fix. Be specific and terse. If something is clean, say so briefly. You are the first pass,
-not the last word — a human reviewer still signs off on the PR.
+**Your final message must BE the verdict itself** — never a status line like "Done" or
+"Complete." Write the full verdict as your last message so whoever invoked you sees it
+directly. Do not write the verdict to a file instead of returning it.
+
+The verdict: **APPROVE** or **CHANGES REQUESTED** on the first line, then a grouped list of
+findings (Conventions / Tokens / Security / Commits / Gates), each with `file:line` and a
+concrete fix, then the result of the three gates. Be specific and terse. If something is
+clean, say so briefly. You are the first pass, not the last word — a human reviewer still
+signs off on the PR.

@@ -1,11 +1,13 @@
-import { type JSX } from "react";
+import { type ReactNode, type JSX } from "react";
 
-export function Code({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
+import styles from "./code.module.css";
+
+export interface CodeProps {
+  children: ReactNode;
   className?: string;
-}): JSX.Element {
-  return <code className={className}>{children}</code>;
+}
+
+export function Code({ children, className }: CodeProps): JSX.Element {
+  const classes = [styles.code, className].filter(Boolean).join(" ");
+  return <code className={classes}>{children}</code>;
 }
